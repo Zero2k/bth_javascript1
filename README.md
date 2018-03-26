@@ -1,4 +1,6 @@
-Projektidé och upplägg {#upplagg}
+Min lösning till kursmoment 07/10 i Javascript1 på BTH.
+
+Projektidé och upplägg
 --------------------------------------------------------------------
 
 Du har blivit kontaktad av ett företag som mäter intelligens, de vill ha din hjälp att skapa ett testverktyg för att räkna ut hur intelligent en person är. Det handlar om att en testperson skall utföra ett antal övningar och det sammanlagda resultatet från övningarna blir intelligensen hos testpersonen. 
@@ -7,14 +9,12 @@ Du är tveksam till deras affärsidé, men du accepterar uppdraget som innebär 
 
 
 
-Bedömning och betygsättning {#bedomning}
+Bedömning och betygsättning
 --------------------------------------------------------------------
 
 När du lämnat in projektet bedöms det tillsammans med dina tidigare redovisade kursmoment och du får ett slutbetyg på kursen. Läs om [grunderna för bedömning och betygsättning](https://dbwebb.se/kurser/faq/bedomning-och-betygsattning).
 
-
-
-Projektspecifikation {#projspec}
+Projektspecifikation
 --------------------------------------------------------------------
 
 Utveckla och leverera projektet enligt specifikationen från kunden (se längre ned i dokumentet). Saknas info i specen så kan du själv välja väg, dokumentera dina val i redovisningstexten.
@@ -23,9 +23,7 @@ De tre första kraven är obligatoriska och måste lösas för att få godkänt 
 
 Varje krav ger max 10 poäng, totalt är det 60 poäng.
 
-
-
-###Krav 1, 2, 3: Grunden {#k1}
+### Krav 1, 2, 3: Grunden
 
 Enligt specifikationen från kunden (se nedan) -- gör ett komplett testverktyg som består av deltest 1, 2 och ett av deltesten 3, 4 eller 5.
 
@@ -37,40 +35,26 @@ Varje del-test skall ha en funktion som heter `Test.reset()`. Det är en fusk-fu
 
 Tipsfrågor och eventuell konfiguration görs via JavaScript-objekt. Antingen direkt i modulen, eller som argument som skickas till modulen.
 
-Kommentera din kod med JSDoc kommentarer, efter bästa förmåga.
+Kommentera din kod med JSDoc kommentarer, efter bästa förmåga och se till att koden validerar.
 
-Se till att koden validerar.
-
-```bash
-# Ställ dig i kurskatalogen
-dbwebb publish intelligence
-```
-
-
-###Krav 4, 5, 6: Optionellt {#k4}
+### Krav 4, 5, 6: Optionellt
 
 Välj att göra ett eller två ytterligare del-testar. Välj de som du ännu inte gjort av deltest 3, 4 och 5.
 
 Varje deltest är här värt 15 poäng styck.
 
-
-
-Specification från kunden {#spec}
+Specification från kunden
 --------------------------------------------------------------------
 
 Så här är tanken att testverktyget skall fungera. Det är en halvt flummig specifikation från kunden, men du gör ditt bästa för att tolka den. Du har ju trots allt en hel del koll på hur man löser sådana här saker.
 
-
-
-###Idé om testverktyget {#ide}
+### Idé om testverktyget
 
 Testpersonen öppnar webbsidan i sin webbläsare. Det kommer upp ett välkomstmeddelande som hälsar välkommen till testverktyget och förklarar idén och vad som skall göras. När testpersonen är klar så skall hen klicka på en länk för att starta testet.
 
 Hela testet skall köras i en enda HTML-sida, utan omladdningar. Varje test skall alltså dynamiskt bygga om sidans innehåll.
 
-
-
-###Deltest 1: Tipsfrågor {#tips}
+### Deltest 1: Tipsfrågor
 
 Första delen av testet är valfritt antal 1X2-frågor. Som en tipspromenad. Frågan visas upp i webbsidan. Testpersonen svarar på frågan (genom att till exempel klicka på svarsalternativen) och får därefter direkt se det rätta svaret. Sedan kan testpersonen välja att gå vidare till nästa fråga.
 
@@ -78,9 +62,7 @@ Du väljer att ta med 5 tipsfrågor, bara för att visa hur det fungerar.
 
 Testpersonen samlar poäng i varje deltest. Här är förslaget att rätt svar ger tre poäng per fråga och fel ger 0 poäng.
 
-
-
-###Deltest 2: Fizzbuzz {#fiz}
+### Deltest 2: Fizzbuzz
 
 På detta testet så visar du upp en sekvens av spelet FizzBuzz. Testpersonen skall gissa på nästa siffra i sekvensen genom att klicka på en av flera alternativa svar (länkar eller knappar).
 
@@ -90,9 +72,7 @@ Rätt klick ger tre poäng och fel ger 0 poäng.
 
 Startvärdet för FizzBuzz-sekvensens skall slumpas fram så det inte är samma varje gång.
 
-
-
-###Deltest 3: Minne {#minne}
+### Deltest 3: Minne
 
 Detta är ett litet minnes-test som kollar hur bra bildminne man har.
 
@@ -108,9 +88,7 @@ Rätt klick ger ett poäng styck.
 
 Efter avklarat test kan testpersonen klicka på en länk för att gå vidare till nästa test.
 
-
-
-###Deltest 4: Visuell förmåga och läsförståelse {#visu}
+### Deltest 4: Visuell förmåga och läsförståelse
 
 Detta testet kombinerar läsförståelse med visuell förmåga. 
 
@@ -128,9 +106,7 @@ Rätt klick ger ett poäng och fel ger 0 poäng.
 
 Testet sker under tidspress. Testet skall utföras på max 15 sekunder. Därefter visas resultatet och en länk som tar testpersonen vidare till nästa test.
 
-
-
-###Deltest 5: Uppfattningsförmåga {#snabb}
+### Deltest 5: Uppfattningsförmåga
 
 Testet börjar med en text som förklarar vad det går ut på. Det finns en länk som spelaren kan klicka på för att starta testet.
 
@@ -146,9 +122,7 @@ Rätt klick ger ett poäng och fel ger 0 poäng.
 
 När testet är klart så visas resultatet tillsammans med en länk till nästa test.
 
-
-
-###Formel för att beräkna intelligensen {#formel}
+### Formel för att beräkna intelligensen
 
 Den är så hemlig så att du inte får se den. Kunden har bett dig att göra en egen formel så länge, du väljer att göra så här. 
 
@@ -157,8 +131,6 @@ Den är så hemlig så att du inte får se den. Kunden har bett dig att göra en
 
 Specen innehåller grova förslag till poängsättningen, men du kan justera den precis som du vill.
 
-
-
-###Slutet {#slut}
+### Slutet
 
 När testet är slut så visas en siffra upp som motsvarar intelligensen, tillsammans med siffran för maximal intelligens.

@@ -1,0 +1,213 @@
+@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);
+@import 'flags.css';
+
+body {
+    font-size: 20px;
+    font-family: 'Work Sans', sans-serif;
+    color: #333;
+    font-weight: 300;
+    text-align: center;
+    background-color: #f8f6f0;
+}
+
+h1 {
+    font-weight: 300;
+    margin: 0px;
+    padding: 10px;
+    font-size: 20px;
+    background-color: #444;
+    color: #fff;
+}
+
+.question {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.answers {
+    text-align: left;
+    display: inline-block;
+}
+
+.answers label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+button {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 22px;
+    background-color: #279;
+    color: #fff;
+    border: 0px;
+    border-radius: 3px;
+    padding: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #38a;
+}
+
+.slide {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+.active-slide {
+    opacity: 1;
+    z-index: 2;
+}
+.quiz-container {
+    position: relative;
+    min-height: 135px;
+    max-width: 900px;
+    padding-bottom: 20px;
+    margin: 40px auto;
+}
+
+#rules {
+    width: 500px;
+    margin: 20px auto;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#answer_form {
+    display: inline-flex;
+}
+.answer {
+    margin: 10px;
+    padding: 10px;
+    background-color: #cacaca;
+}
+
+
+/* Flags-start */
+
+.grid-container {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+}
+.grid-item {
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.card-container, .front, .back {
+	width: 130px;
+	height: 80px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.flipped {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+}
+
+.front {
+	background-color: #38a;
+	z-index: 2;
+	border: 1px solid rgba(0, 0, 0, 0.199);
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+.back {
+	transform: rotateY(180deg);
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.flag {
+    position: relative;
+    width: 130px;
+    height: 80px;
+}
+
+.text {
+    text-align: center;
+}
+
+/* Flags-end */
+
+#gameboard {
+    position: relative;
+    margin-top: 60px;
+    height: 500px;
+    width: 100%;
+}
+
+#gameboard2 {
+    position: relative;
+    margin-top: 60px;
+    height: 200px;
+    width: 100%;
+}
+
+.box {
+    position: absolute;
+    z-index: 1;
+    height: 100px;
+    width: 100px;
+}
+
+.center {
+	top: 0; left: 0; bottom: 0; right: 0;
+	margin: auto;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.black {
+    background-color: black;
+}
+
+.animateSize {
+    transition: width 1s, height 1s;
+}
+
+.selected {
+    border: 5px solid #000;
+    outline: #00FF00 dotted thick;
+}
+
+.circle {
+    border-radius: 50%;
+}
