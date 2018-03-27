@@ -219,6 +219,87 @@ window.onload = function() {
 
     const game2 = function() {
         console.log('game2');
+        title.innerHTML = 'FizzBuzz';
+        const fizzBuzzArray = [];
+
+        function buildPart() {
+            const fizzBuzz = Object.create(part);
+            fizzBuzz.init(`
+                <div class="quiz-container">
+                <p>Detta test är utformat för att mäta dina mönster-matchande förmågor. Under detta test kommer du att möta en sekvens av värden och ord. Det är upp till dig att räkna ut vad nästa ord eller värde i sekvensen är:</p>
+                <div id="fizzBuzz"></div>
+                <div id="success"></div>
+                <h3>Regler:</h3>
+                <div id="rules"></div>
+                </div>
+            `);
+            fizzBuzz.draw(myContainer);
+        }
+
+        /* create the page */
+        buildPart();
+
+        const fizzBuzzContainer = document.getElementById('fizzBuzz');
+        const fizzBuzzRules = document.getElementById('rules');
+        const fizzBuzzSuccess = document.getElementById('success');
+
+        function fizzBuzz(start, stop) {
+            for (let i = start; i <= stop; i++) {
+                if (i % 5 === 0) {
+                    fizzBuzzArray.push('Buzz');
+                } else if (i % 3 === 0) {
+                    fizzBuzzArray.push('Fizz');
+                } else {
+                    fizzBuzzArray.push(i);
+                }
+            }
+            return fizzBuzzArray;
+        }
+        const startNr = Math.floor(Math.random() * 100) + 1;
+        const endNr = (startNr + 10);
+        const fizzBussArr = fizzBuzz(startNr, endNr);
+        const spliceValue = Math.floor(Math.random() * 10) + 1;
+        console.log(spliceValue);
+        const popValue = fizzBussArr.splice(spliceValue, 1, '?');
+        console.log(popValue[0]);
+
+        fizzBuzzContainer.innerHTML = `
+            <p>${fizzBussArr}</p>
+            <form id="answer_form">
+            <button class="answer" value="Fizz">Fizz</button>
+            <button class="answer" value="${spliceValue + startNr}">${spliceValue + startNr}</button>
+            <button class="answer" value="Buzz">Buzz</button>
+            <button class="answer" value="FizzBuzz">FizzBuzz</button>
+            </form>
+        `;
+
+        fizzBuzzRules.innerHTML = 'Om ett tal är delbart med 3 ska det vara "Fizz", om det är delbart med 5 då är det "Buzz". Om det är delbart med båda är det "FizzBuzz", annars måste det vara ett nummer.';
+
+        function disableTest() {
+            const answer = document.getElementsByClassName('answer');
+            for (let i = 0; i < answer.length; i++) {
+                answer[i].disabled = true;
+            }
+        }
+
+        function testAnswer() {
+            disableTest();
+            if (this.value == popValue[0]) {
+                console.log('Correct answer');
+                fizzBuzzSuccess.innerHTML = 'Ditt svar är rätt. Förbereder nästa test...'
+                this.style.color = 'green';
+                points[1] += 20;
+            } else {
+                console.log('Wrong answer');
+                this.style.color = 'red';
+            }
+            setTimeout(function() { Test.partOfTest(3); }, 3000);
+        }
+
+        const answer = document.getElementsByClassName('answer');
+        for (let i = 0; i < answer.length; i++) {
+            answer[i].addEventListener('click', testAnswer);
+        }
     };
 
     const game3 = function() {
