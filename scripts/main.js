@@ -46,6 +46,7 @@ window.onload = function() {
     /* First part of the test */
     const game1 = function() {
         title.innerHTML = 'Frågesport';
+
         function buildPart() {
             const quizz = Object.create(part);
             quizz.init(`
@@ -175,10 +176,14 @@ window.onload = function() {
             setTimeout(function() { Test.partOfTest(2); }, 3000);
         }
 
-        function showSlide(n) {
+        /**
+         * 
+         * @param {Int} nr - Number of the current slide
+         */
+        function showSlide(nr) {
             slides[currentSlide].classList.remove('active-slide');
-            slides[n].classList.add('active-slide');
-            currentSlide = n;
+            slides[nr].classList.add('active-slide');
+            currentSlide = nr;
 
             if (currentSlide === slides.length - 1) {
                 nextButton.style.display = 'none';
@@ -243,6 +248,11 @@ window.onload = function() {
         const fizzBuzzRules = document.getElementById('rules');
         const fizzBuzzSuccess = document.getElementById('success');
 
+        /**
+         * 
+         * @param {Int} start - Number between 1 - 100
+         * @param {Int} stop - Number which equals to start + 10
+         */
         function fizzBuzz(start, stop) {
             for (let i = start; i <= stop; i++) {
                 if (i % 5 === 0) {
@@ -304,6 +314,236 @@ window.onload = function() {
 
     const game3 = function() {
         console.log('game3');
+        title.innerHTML = 'Memory';
+
+        function buildPart() {
+            const memory = Object.create(part);
+            memory.init(`
+                <div class="quiz-container">
+                <p>När du klickar på start kommer 10 flaggor att vissas under 5 sekunder. Därefter försvinner flagorna och din uppgift är att i rätt ordning försöka klicka på den ruta där den motsvarande flaggan finns.</p>
+                <p>Testet pågår så länge du klickar rätt och för varje rätt så får du 2 poäng. Klickar du fel så avslutas testet och du skickas automatiskt vidare till sista testet.</p>
+                <div id="memory"></div>
+                <div id="flag-list"></div>
+                <button id="start">Starta testet</button>
+                </div>
+            `);
+            memory.draw(myContainer);
+        }
+
+        /* create the page */
+        buildPart();
+
+        /* Create memory game */
+        function createMemory() {
+            const memoryField = Object.create(part);
+            memoryField.init(`
+            <div id="container" class="grid-container">
+                <div class="grid-item">
+                    <div id="card-one" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-two" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-three" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-four" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-five" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-six" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-seven" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-eight" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-nine" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div id="card-ten" class="card-container">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                    </div>
+                </div>
+            </div>
+            `);
+            memoryField.draw(memoryContainer);
+
+            /* Elements */
+            const myNodeList = document.getElementsByClassName('card-container');
+            const cardArray = new Array(10);
+            const correctCards = [{ id: 1, name: 'Danmark' }, { id: 2, name: 'Spanien' }, { id: 3, name: 'Grönland' }, { id: 4, name: 'Scotland' }, { id: 5, name: 'Belgien' }, { id: 3, name: 'Grönland' }, { id: 5, name: 'Belgien' }, { id: 1, name: 'Danmark' }, { id: 4, name: 'Scotland' }, { id: 2, name: 'Spanien' }];
+            let currentGuess = -1;
+            const flagList = document.getElementById('flag-list');
+
+            show();
+            setTimeout(function() { hide(); }, 5000);
+
+            /**
+             * Generate cards and check so there is no duplicates
+             *
+             * @param {Int} cardPosition - Position the card has in myNodeList
+             */
+            function generateCards(cardPosition) {
+                let randomNumber = Math.floor((Math.random() * 5) +1);
+                
+                while(checkDuplicate(randomNumber)) {
+                    randomNumber = Math.floor((Math.random() * 5) +1);
+                }
+                cardArray[cardPosition] = randomNumber;
+            }
+
+            /**
+             * Check if there is duplicate of any card
+             * 
+             * @param {Int} number - Random number from function genereteCards.
+             */
+            function checkDuplicate(number) {
+                let isDuplicate = false;
+                let count = 0;
+
+                for (let i = 0; i < 10; i++) {
+                    if (cardArray[i] === number) {
+                        count++;
+                    }
+                }
+                if (count === 2) {
+                    isDuplicate = true;
+                }
+                return isDuplicate;
+            }
+
+            /**
+             * Create the flip effect when a card is clicked
+             *
+             * @param {Object} card - Object from NodeList located at specific location / index.
+             */
+            function flipCard(card) {
+                card.style.transform = 'rotateY(0deg)';
+                card.style.transform = 'rotateY(180deg)';
+                card.classList.toggle('flipped');
+            }
+
+            /* Shows all card when the test start */
+            function show() {
+                for (let index = 0; index < myNodeList.length; index++) {
+                    const element = document.getElementById(myNodeList[index].id);
+                    element.id = index;
+                    generateCards(index);
+                    flipCard(myNodeList[index]);
+                }
+            }
+
+            /* Used in setTimeout to hide all card after 5 seconds */
+            function hide() {
+                console.log('Card array: ', cardArray);
+                console.log('Correct: ', correctCards);
+                for (let index = 0; index < myNodeList.length; index++) {
+                    let element = document.getElementById(myNodeList[index].id);
+                    element.id = index;
+                    element.addEventListener('click', function() {
+                        currentGuess++
+                        makeGuess(this, currentGuess);
+                    });
+                    flipCard(myNodeList[index])
+                }
+                flagList.innerHTML = correctCards.map((flag, index) => (
+                    `${index + 1}. ${flag.name}`
+                )).join(' ');
+            }
+
+            /**
+             * Check if guessed card is correct by comparing cardArray and correctCards
+             *
+             * @param {Object} card - Current card
+             * @param {Int} currentGuess - Guess count
+             */
+            function makeGuess(card, currentGuess) {
+                console.log(currentGuess);
+                console.log(correctCards[currentGuess]);
+                console.log(cardArray[card.id]);
+                if (currentGuess === 10) {
+                    console.log('Send to next test');
+                    Test.partOfTest(4);
+                }
+
+                if (cardArray[card.id] === correctCards[currentGuess].id) {
+                    console.log('You got a match!');
+                    points[2] += 2;
+                    flipCard(card);
+                } else {
+                    console.log('Not a match!');
+                    Test.partOfTest(4);
+                }
+            }
+
+            /* Create all flags */
+            function addFlags() {
+                for (let i = 0; i < myNodeList.length; i++) {
+                    const element = document.getElementById(i);
+
+                    switch (cardArray[i]) {
+                        case 1:
+                            element.children[1].innerHTML = '<div class="flag denmark"></div>';
+                            break;
+                        case 2:
+                            element.children[1].innerHTML = '<div class="flag spain"></div>';
+                            break;
+                        case 3:
+                            element.children[1].innerHTML = '<div class="flag greenland"></div>';
+                            break;
+                        case 4:
+                            element.children[1].innerHTML = '<div class="flag scotland"></div>';
+                            break;
+                        default:
+                            element.children[1].innerHTML = '<div class="flag belgium"></div>';
+                            break;
+                    }
+                }
+            }
+            addFlags();
+        }
+
+        const memoryContainer = document.getElementById('memory');
+        const memoryStart = document.getElementById('start');
+
+        memoryStart.addEventListener('click', function() {
+            createMemory();
+            memoryStart.remove();
+        });
     };
 
     const game4 = function() {
@@ -323,6 +563,10 @@ window.onload = function() {
     };
 
     window.Test = (function() {
+        /**
+         * 
+         * @param {Int} testPart - Number of the test you want to reset.
+         */
         function partOfTest(testPart) {
             switch (testPart) {
                 case 0:
@@ -349,14 +593,53 @@ window.onload = function() {
             }
         }
 
+        /* Return the array with the current points */
         function currentScore() {
             return points;
+        }
+
+        /**
+         * 
+         * @param {Int} testPart - Number of the test you want to reset.
+         */
+        function reset(testPart) {
+            switch (testPart) {
+                case 1:
+                    console.log("Reset test #1");
+                    points[0] = 0;
+                    game1();
+                    break;
+                case 2:
+                    console.log("Reset test #2");
+                    points[1] = 0;
+                    game2();
+                    break;
+                case 3:
+                    console.log("Reset test #3");
+                    points[2] = 0;
+                    game3();
+                    break;
+                case 4:
+                    console.log("Reset test #4");
+                    points[3] = 0;
+                    game4();
+                    break;
+                case 5:
+                    console.log("Reset test #5");
+                    points[4] = 0;
+                    game5();
+                    break;
+                default:
+                    end();
+                    break;
+            }
         }
 
         /* Return the object to make it visible. */
         return {
             partOfTest: partOfTest,
             currentScore: currentScore,
+            reset: reset,
         };
     }());
 
