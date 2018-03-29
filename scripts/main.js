@@ -675,10 +675,133 @@ window.onload = function() {
 
     const game5 = function() {
         console.log('game5');
+        title.innerHTML = 'Reaktions- och Uppfattningsförmåga';
+        function buildPart() {
+            const memory = Object.create(part);
+            memory.init(`
+                <div class="quiz-container">
+                <p>När du klickar på "Start" så kommer 10 grafiska objekt att vissas, varje objekt vissas under 1 sekund sen vissas ett nytt objekt.</p>
+                <p>Din uppgift är att klicka på de objekt som uppfyller kraven som finns i listan nedan.</p>
+                <div>| <b>Har en annan färg än röd</b> | <b>Har en annan form än kvadrat</b> | <b>Är gul och kvadrat</b> |</div>
+                <button id="start" style="margin-top: 20px">Start</button>
+                <div id="gameboard2"></div>
+                </div>
+            `);
+            memory.draw(myContainer);
+        }
+
+        /* create the page */
+        buildPart();
+
+        /* List of all elements */
+        const elementList = [];
+
+        /* Generate random elements once the test start */
+        (function generateRandomElement() {
+            for (let i = 0; i < 10; i++) {
+                const generateColor = Math.floor((Math.random() * 5) + 1);
+                const generateCircle = Math.floor((Math.random() * 2) + 1);
+                let element = {
+                    index: i,
+                    form: `${generateCircle === 1 ? 'circle' : 'square'}`,
+                    id: `box-${generateColor === 1 ? 'grön' : generateColor === 2 ? 'gul' : generateColor === 3 ? 'röd' : generateColor === 4 ? 'svart' : 'blå'}`,
+                    color: `${generateColor === 1 ? 'green' : generateColor === 2 ? 'yellow' : generateColor === 3 ? 'red' : generateColor === 4 ? 'black' : 'blue'}`
+                };
+                elementList.push(element);
+            }
+        }());
+        console.log(elementList);
+
+        const gameboard = document.getElementById('gameboard2');
+        const startButton = document.getElementById('start');
+        let click = 0;
+
+        /* Button to start the test */
+        startButton.addEventListener('click', function() {
+            startButton.remove();
+            startLoop();
+        });
+
+        /* Loop through the list of elements and displays each element for 1 second */
+        const startLoop = function() {
+            console.log('Start Loop');
+
+            for (let i = 0; i < 10; i++) {
+                setTimeout(function timer() {
+                    console.log('Element: ', i);
+
+                    let newNode = document.createElement('div');
+                    newNode.id = elementList[i].id;
+                    newNode.classList.add('box', 'center', elementList[i].form, elementList[i].color);
+                    click = 0;
+                    newNode.addEventListener('click', function() {
+                        click++
+                        checkCorrect(elementList[i], click);
+                    });
+                    gameboard.appendChild(newNode);
+                    setTimeout( function() {
+                        newNode.remove()
+                    }, 1000);
+
+                    /* Check if reach end of array / loop */
+                    if(i === 9) {
+                        console.log("End Loop");
+                        Test.partOfTest(6);
+                    }
+                }, i * 2000);
+            }
+        };
+
+        /**
+         * 
+         * @param {Int} element - Current element in elementList
+         * @param {Int} clickNr - Number of click the element has received
+         */
+        const checkCorrect = function(element, clickNr) {
+            if (clickNr <= 1) {
+                if (element.form === 'circle' && element.form !== 'square' || (element.color === 'yellow' && element.form === 'square')) {
+                    console.log('Correct');
+                    points[4] += 4;
+                } else {
+                    console.log('False');
+                    points[4] -= 2;
+                }
+            } else {
+                console.log('You can only click once!');
+            }
+        };
     };
 
     const end = function() {
         console.log('end');
+        title.innerHTML = 'Sammanfattning - Din intelligens';
+        function buildPart() {
+            const testEnd = Object.create(part);
+            testEnd.init(`
+                <div class="quiz-container">
+                <p>Bra jobbat! Här är dina poäng och vi har beräknat din intelligens med vår hemliga formel:</p>
+                <div id="score"></div>
+                <hr>
+                <div id="intelligence"></div>
+                </div>
+            `);
+            testEnd.draw(myContainer);
+        }
+
+        /* create the page */
+        buildPart();
+
+        const score = document.getElementById('score');
+        const intelligence = document.getElementById('intelligence');
+        const testName = ['Frågesport', 'FizzBuzz', 'Memory', 'Visuell förmåga och läsförståelse', 'Reaktions- och Uppfattningsförmåga'];
+
+        let result = '';
+        for (let i = 0; i < points.length; i++) {
+            result += `<br> ${testName[i]} : ${points[i]} poäng`;
+        }
+        score.innerHTML = result;
+
+        intelligence.innerHTML = `Din intelligens är ${(points[0] + points[1] + points[2] + points[3] + points[4]) > 45 ? 'över genomsnittet' : 'under genomsnittet'}`;
     };
 
     const startGame = function () {
