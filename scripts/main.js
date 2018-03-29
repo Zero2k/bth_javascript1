@@ -548,6 +548,129 @@ window.onload = function() {
 
     const game4 = function() {
         console.log('game4');
+        title.innerHTML = 'Visuell förmåga och läsförståelse';
+
+        function buildPart() {
+            const memory = Object.create(part);
+            memory.init(`
+                <div class="quiz-container">
+                <p>När du klickar på "Start" så kommer 10 grafiska objekt att vissas under 15 sekunder. Det kommer även vissas en beskrivning för ett objekt.<br> (Nedan ser du ett av objekten som kommer att vissas)</p>
+                <p>Din uppgift är att klicka på de objekt som motsvarar det som står i beskrivningen. Till exempel kan det stå "Klicka på en gula cirkelen" eller "Klicka på en röda fyrkanten".</p>
+                <small>Du får 2 poäng för varje rätt och 0 poäng för varje fel.</small>
+                <div id="find" style="text-decoration: underline; padding-top: 10px"></div>
+                <button id="start" style="margin-top: 20px">Starta</button>
+                <div id="gameboard">
+                    <div id="box-grön" class="box center green"></div>
+                </div>
+                </div>
+            `);
+            memory.draw(myContainer);
+        }
+
+        /* create the page */
+        buildPart();
+
+        const gameboard = document.getElementById('gameboard');
+        const box1 = document.getElementById('box-grön');
+        const startButton = document.getElementById('start');
+        const find = document.getElementById('find');
+        let count = 0;
+        let click = 0;
+        const correctList = [];
+
+        startButton.addEventListener('click', function() {
+            startButton.remove();
+            startGame();
+        });
+
+        /**
+         * 
+         * @param {Int} clickNr - Number of flags that have been clicked
+         */
+        const findValue = function(clickNr) {
+            if (typeof correctList[clickNr] !== 'undefined' && typeof correctList[clickNr].value !== 'undefined') {
+                find.innerHTML = correctList[clickNr].value;
+            }
+        };
+
+        /* Create random element */
+        const createRandomElement = function() {
+            count++
+            const generateColor = Math.floor((Math.random() * 5) + 1);
+            const generateCircle = Math.floor((Math.random() * 2) + 1);
+            const x = (((Math.random() * 10) + 1) > 5) ? Math.floor((Math.random() * 500) + 1) + "px" : Math.floor((Math.random() * -500) + 1) + "px";
+            const y = (((Math.random() * 10) + 1) > 5) ? Math.floor((Math.random() * 800) + 1) + "px" : Math.floor((Math.random() * -800) + 1) + "px";
+            const dupe = box1.cloneNode(true);
+            dupe.id = `box-${generateColor === 1 ? 'grön' : generateColor === 2 ? 'gul' : generateColor === 3 ? 'röd' : generateColor === 4 ? 'svart' : 'blå'}`;
+            dupe.style.top = x;
+            dupe.style.left = y;
+            dupe.style.zIndex = box1.zIndex + 1;
+            correctList.push({
+                id: count,
+                value: `Klicka på en ${generateColor === 1 ? 'grön' : generateColor === 2 ? 'gul' : generateColor === 3 ? 'röd' : generateColor === 4 ? 'svart' : 'blå'} ${generateCircle === 1 ? 'cirkel' : 'fyrkant'}`,
+                correct: `box-${generateColor === 1 ? 'grön' : generateColor === 2 ? 'gul' : generateColor === 3 ? 'röd' : generateColor === 4 ? 'svart' : 'blå'}`,
+            });
+
+            if (generateCircle === 1) {
+                dupe.classList.add('circle');
+            }
+
+            if (generateColor === 1) {
+                dupe.classList.add('green');
+            } else if (generateColor === 2) {
+                dupe.classList.remove('green');
+                dupe.classList.add('yellow');
+            } else if (generateColor === 3) {
+                dupe.classList.remove('green');
+                dupe.classList.add('red');
+            } else if (generateColor === 4) {
+                dupe.classList.remove('green');
+                dupe.classList.add('black');
+            } else {
+                dupe.classList.remove('green');
+                dupe.classList.add('blue');
+            }
+            dupe.addEventListener('click', function() {
+                checkCorrect(this);
+            });
+            gameboard.appendChild(dupe);
+        };
+
+        /* Start the game by running the createRandomElement to create 10 elements */
+        const startGame = function() {
+            for (let i = 0; i <= 9; i++) {
+                createRandomElement();
+                console.log(correctList);
+            }
+
+            box1.remove();
+            findValue(click);
+
+            gameOver = window.setTimeout(function() {
+                Test.partOfTest(5);
+            }, 15000);
+        };
+
+        /* Track how many time a element has been clicked */
+        const checkGameEnd = function(clickNr) {
+            if (clickNr === 9) {
+                Test.partOfTest(5);
+                console.log('Next game');
+            }
+        };
+
+        /* Check if current box is the correct element */
+        const checkCorrect = function(box) {
+            checkGameEnd(click);
+            if (correctList[click++].correct === box.id) {
+                points[3] += 1;
+                findValue(click);
+                console.log('Correct');
+            } else {
+                findValue(click);
+                console.log('Wrong');
+            }
+        };
     };
 
     const game5 = function() {
