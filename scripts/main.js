@@ -215,10 +215,7 @@ window.onload = function() {
         showSlide(0);
 
         /* on submit, show results */
-        submitButton.addEventListener(
-            'click',
-            showResults,
-        );
+        submitButton.addEventListener('click', showResults);
         nextButton.addEventListener('click', showNextSlide);
     };
 
@@ -296,7 +293,7 @@ window.onload = function() {
             disableTest();
             if (this.value == popValue[0]) {
                 console.log('Correct answer');
-                fizzBuzzSuccess.innerHTML = 'Ditt svar är rätt. Förbereder nästa test...'
+                fizzBuzzSuccess.innerHTML = 'Ditt svar är rätt. Förbereder nästa test...';
                 this.style.color = 'green';
                 points[1] += 20;
             } else {
@@ -475,10 +472,10 @@ window.onload = function() {
                     let element = document.getElementById(myNodeList[index].id);
                     element.id = index;
                     element.addEventListener('click', function() {
-                        currentGuess++
+                        currentGuess++;
                         makeGuess(this, currentGuess);
                     });
-                    flipCard(myNodeList[index])
+                    flipCard(myNodeList[index]);
                 }
                 flagList.innerHTML = correctCards.map((flag, index) => (
                     `${index + 1}. ${flag.name}`
@@ -595,7 +592,7 @@ window.onload = function() {
 
         /* Create random element */
         const createRandomElement = function() {
-            count++
+            count++;
             const generateColor = Math.floor((Math.random() * 5) + 1);
             const generateCircle = Math.floor((Math.random() * 2) + 1);
             const x = (((Math.random() * 10) + 1) > 5) ? Math.floor((Math.random() * 500) + 1) + "px" : Math.floor((Math.random() * -500) + 1) + "px";
@@ -735,12 +732,12 @@ window.onload = function() {
                     newNode.classList.add('box', 'center', elementList[i].form, elementList[i].color);
                     click = 0;
                     newNode.addEventListener('click', function() {
-                        click++
+                        click++;
                         checkCorrect(elementList[i], click);
                     });
                     gameboard.appendChild(newNode);
                     setTimeout( function() {
-                        newNode.remove()
+                        newNode.remove();
                     }, 1000);
 
                     /* Check if reach end of array / loop */
@@ -759,7 +756,10 @@ window.onload = function() {
          */
         const checkCorrect = function(element, clickNr) {
             if (clickNr <= 1) {
-                if (element.form === 'circle' && element.form !== 'square' || (element.color === 'yellow' && element.form === 'square')) {
+                if (element.form === 'square' && element.color === 'yellow') {
+                    console.log('Correct');
+                    points[4] += 4;
+                } else if (element.form === 'circle' && element.color !== 'red') {
                     console.log('Correct');
                     points[4] += 4;
                 } else {
@@ -801,7 +801,7 @@ window.onload = function() {
         }
         score.innerHTML = result;
 
-        intelligence.innerHTML = `Din intelligens är ${(points[0] + points[1] + points[2] + points[3] + points[4]) > 45 ? 'över genomsnittet' : 'under genomsnittet'}`;
+        intelligence.innerHTML = `Din intelligens är ${(points[0] + points[1] + points[2] + points[3] + points[4]) > 55 ? 'över genomsnittet' : 'under genomsnittet'}`;
     };
 
     const startGame = function () {
