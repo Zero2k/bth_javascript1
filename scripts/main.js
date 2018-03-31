@@ -17,10 +17,10 @@ window.onload = function() {
     };
 
     /* Introduction part of the test */
-    const intro = function() {
+    const intro = () => {
         title.innerHTML = 'Intelligence - IQ-testet';
 
-        function buildPart() {
+        const buildPart = () => {
             const introObj = Object.create(part);
             introObj.init(`
                 <div class="quiz-container">
@@ -44,10 +44,10 @@ window.onload = function() {
     };
 
     /* First part of the test */
-    const game1 = function() {
+    const game1 = () => {
         title.innerHTML = 'Frågesport';
 
-        function buildPart() {
+        const buildPart = () => {
             const quizz = Object.create(part);
             quizz.init(`
                 <div class="quiz-container">
@@ -111,7 +111,7 @@ window.onload = function() {
             },
         ];
 
-        function buildQuiz() {
+        const buildQuiz = () => {
             /* we'll need a place to store the HTML output */
             const output = [];
 
@@ -141,7 +141,7 @@ window.onload = function() {
             quizContainer.innerHTML = output.join('');
         }
 
-        function showResults() {
+        const showResults = () => {
             /* gather answer containers from our quiz */
             const answerContainers = quizContainer.querySelectorAll('.answers');
 
@@ -180,7 +180,7 @@ window.onload = function() {
          * 
          * @param {Int} nr - Number of the current slide
          */
-        function showSlide(nr) {
+        const showSlide = (nr) => {
             slides[currentSlide].classList.remove('active-slide');
             slides[nr].classList.add('active-slide');
             currentSlide = nr;
@@ -194,7 +194,7 @@ window.onload = function() {
             }
         }
 
-        function showNextSlide() {
+        const showNextSlide = () => {
             showSlide(currentSlide + 1);
         }
 
@@ -219,12 +219,12 @@ window.onload = function() {
         nextButton.addEventListener('click', showNextSlide);
     };
 
-    const game2 = function() {
+    const game2 = () => {
         console.log('game2');
         title.innerHTML = 'FizzBuzz';
         const fizzBuzzArray = [];
 
-        function buildPart() {
+        const buildPart = () => {
             const fizzBuzz = Object.create(part);
             fizzBuzz.init(`
                 <div class="quiz-container">
@@ -250,7 +250,7 @@ window.onload = function() {
          * @param {Int} start - Number between 1 - 100
          * @param {Int} stop - Number which equals to start + 10
          */
-        function fizzBuzz(start, stop) {
+        const fizzBuzz = (start, stop) => {
             for (let i = start; i <= stop; i++) {
                 if (i % 5 === 0) {
                     fizzBuzzArray.push('Buzz');
@@ -282,14 +282,14 @@ window.onload = function() {
 
         fizzBuzzRules.innerHTML = 'Om ett tal är delbart med 3 ska det vara "Fizz", om det är delbart med 5 då är det "Buzz". Om det är delbart med båda är det "FizzBuzz", annars måste det vara ett nummer.';
 
-        function disableTest() {
+        const disableTest = () => {
             const answer = document.getElementsByClassName('answer');
             for (let i = 0; i < answer.length; i++) {
                 answer[i].disabled = true;
             }
         }
 
-        function testAnswer() {
+        const testAnswer = () => {
             disableTest();
             if (this.value == popValue[0]) {
                 console.log('Correct answer');
@@ -309,11 +309,11 @@ window.onload = function() {
         }
     };
 
-    const game3 = function() {
+    const game3 = () => {
         console.log('game3');
         title.innerHTML = 'Memory';
 
-        function buildPart() {
+        const buildPart = () => {
             const memory = Object.create(part);
             memory.init(`
                 <div class="quiz-container">
@@ -331,7 +331,7 @@ window.onload = function() {
         buildPart();
 
         /* Create memory game */
-        function createMemory() {
+        const createMemory = () => {
             const memoryField = Object.create(part);
             memoryField.init(`
             <div id="container" class="grid-container">
@@ -414,7 +414,7 @@ window.onload = function() {
              *
              * @param {Int} cardPosition - Position the card has in myNodeList
              */
-            function generateCards(cardPosition) {
+            const generateCards = (cardPosition) => {
                 let randomNumber = Math.floor((Math.random() * 5) +1);
                 
                 while(checkDuplicate(randomNumber)) {
@@ -428,7 +428,7 @@ window.onload = function() {
              * 
              * @param {Int} number - Random number from function genereteCards.
              */
-            function checkDuplicate(number) {
+            const checkDuplicate = (number) => {
                 let isDuplicate = false;
                 let count = 0;
 
@@ -448,14 +448,14 @@ window.onload = function() {
              *
              * @param {Object} card - Object from NodeList located at specific location / index.
              */
-            function flipCard(card) {
+            const flipCard = (card) => {
                 card.style.transform = 'rotateY(0deg)';
                 card.style.transform = 'rotateY(180deg)';
                 card.classList.toggle('flipped');
             }
 
             /* Shows all card when the test start */
-            function show() {
+            const show = () => {
                 for (let index = 0; index < myNodeList.length; index++) {
                     const element = document.getElementById(myNodeList[index].id);
                     element.id = index;
@@ -465,7 +465,7 @@ window.onload = function() {
             }
 
             /* Used in setTimeout to hide all card after 5 seconds */
-            function hide() {
+            const hide = () => {
                 console.log('Card array: ', cardArray);
                 console.log('Correct: ', correctCards);
                 for (let index = 0; index < myNodeList.length; index++) {
@@ -488,7 +488,7 @@ window.onload = function() {
              * @param {Object} card - Current card
              * @param {Int} currentGuess - Guess count
              */
-            function makeGuess(card, currentGuess) {
+            const makeGuess = (card, currentGuess) => {
                 console.log(currentGuess);
                 console.log(correctCards[currentGuess]);
                 console.log(cardArray[card.id]);
@@ -508,7 +508,7 @@ window.onload = function() {
             }
 
             /* Create all flags */
-            function addFlags() {
+            const addFlags = () => {
                 for (let i = 0; i < myNodeList.length; i++) {
                     const element = document.getElementById(i);
 
@@ -543,11 +543,11 @@ window.onload = function() {
         });
     };
 
-    const game4 = function() {
+    const game4 = () => {
         console.log('game4');
         title.innerHTML = 'Visuell förmåga och läsförståelse';
 
-        function buildPart() {
+        const buildPart = () => {
             const memory = Object.create(part);
             memory.init(`
                 <div class="quiz-container">
@@ -584,14 +584,14 @@ window.onload = function() {
          * 
          * @param {Int} clickNr - Number of flags that have been clicked
          */
-        const findValue = function(clickNr) {
+        const findValue = (clickNr) => {
             if (typeof correctList[clickNr] !== 'undefined' && typeof correctList[clickNr].value !== 'undefined') {
                 find.innerHTML = correctList[clickNr].value;
             }
         };
 
         /* Create random element */
-        const createRandomElement = function() {
+        const createRandomElement = () => {
             count++;
             const generateColor = Math.floor((Math.random() * 5) + 1);
             const generateCircle = Math.floor((Math.random() * 2) + 1);
@@ -634,7 +634,7 @@ window.onload = function() {
         };
 
         /* Start the game by running the createRandomElement to create 10 elements */
-        const startGame = function() {
+        const startGame = () => {
             for (let i = 0; i <= 9; i++) {
                 createRandomElement();
                 console.log(correctList);
@@ -649,7 +649,7 @@ window.onload = function() {
         };
 
         /* Track how many time a element has been clicked */
-        const checkGameEnd = function(clickNr) {
+        const checkGameEnd = (clickNr) => {
             if (clickNr === 9) {
                 Test.partOfTest(5);
                 console.log('Next game');
@@ -657,7 +657,7 @@ window.onload = function() {
         };
 
         /* Check if current box is the correct element */
-        const checkCorrect = function(box) {
+        const checkCorrect = (box) => {
             checkGameEnd(click);
             if (correctList[click++].correct === box.id) {
                 points[3] += 1;
@@ -670,10 +670,10 @@ window.onload = function() {
         };
     };
 
-    const game5 = function() {
+    const game5 = () => {
         console.log('game5');
         title.innerHTML = 'Reaktions- och Uppfattningsförmåga';
-        function buildPart() {
+        const buildPart = () => {
             const memory = Object.create(part);
             memory.init(`
                 <div class="quiz-container">
@@ -694,7 +694,7 @@ window.onload = function() {
         const elementList = [];
 
         /* Generate random elements once the test start */
-        (function generateRandomElement() {
+        (generateRandomElement = () => {
             for (let i = 0; i < 10; i++) {
                 const generateColor = Math.floor((Math.random() * 5) + 1);
                 const generateCircle = Math.floor((Math.random() * 2) + 1);
@@ -706,7 +706,7 @@ window.onload = function() {
                 };
                 elementList.push(element);
             }
-        }());
+        })();
         console.log(elementList);
 
         const gameboard = document.getElementById('gameboard2');
@@ -720,7 +720,7 @@ window.onload = function() {
         });
 
         /* Loop through the list of elements and displays each element for 1 second */
-        const startLoop = function() {
+        const startLoop = () => {
             console.log('Start Loop');
 
             for (let i = 0; i < 10; i++) {
@@ -754,7 +754,7 @@ window.onload = function() {
          * @param {Int} element - Current element in elementList
          * @param {Int} clickNr - Number of click the element has received
          */
-        const checkCorrect = function(element, clickNr) {
+        const checkCorrect = (element, clickNr) => {
             if (clickNr <= 1) {
                 if (element.form === 'square' && element.color === 'yellow') {
                     console.log('Correct');
@@ -772,10 +772,10 @@ window.onload = function() {
         };
     };
 
-    const end = function() {
+    const end = () => {
         console.log('end');
         title.innerHTML = 'Sammanfattning - Din intelligens';
-        function buildPart() {
+        const buildPart = () => {
             const testEnd = Object.create(part);
             testEnd.init(`
                 <div class="quiz-container">
@@ -804,7 +804,7 @@ window.onload = function() {
         intelligence.innerHTML = `Din intelligens är ${(points[0] + points[1] + points[2] + points[3] + points[4]) > 55 ? 'över genomsnittet' : 'under genomsnittet'}`;
     };
 
-    const startGame = function () {
+    const startGame = () => {
         intro();
     };
 
@@ -813,7 +813,7 @@ window.onload = function() {
          * 
          * @param {Int} testPart - Number of the test you want to reset.
          */
-        function partOfTest(testPart) {
+        const partOfTest = (testPart) => {
             switch (testPart) {
                 case 0:
                     intro();
@@ -840,7 +840,7 @@ window.onload = function() {
         }
 
         /* Return the array with the current points */
-        function currentScore() {
+        const currentScore = () => {
             return points;
         }
 
@@ -848,7 +848,7 @@ window.onload = function() {
          * 
          * @param {Int} testPart - Number of the test you want to reset.
          */
-        function reset(testPart) {
+        const reset = (testPart) => {
             switch (testPart) {
                 case 1:
                     console.log("Reset test #1");
